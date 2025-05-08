@@ -20,20 +20,14 @@ Clove is an **open-source autonomous agent** that helps you generate, configure,
 - 🧠 **AI-Driven Project Generation**  
   Describe your idea, and Clove scaffolds your entire project.
 
-- 🌍 **Environment Variable Cloning**  
-  Auto-detect and replicate `.env` files from templates or existing apps.
-
 - 📦 **Stack-Aware Scaffolding**  
   Clove generates structured code with proper validation, components, and API routes.
 
 - 🧱 **Framework & Tooling Choices**  
-  Supports React, Next.js, Tailwind, Supabase, and more.
+  Supports React, Next.js, Tailwind, and more.
 
 - 🤖 **Multi-Model AI Support**  
-  Works with OpenAI GPT-4, Gemini, Claude, and optionally local LLMs.
-
-- 🛠️ **In-Browser Monaco Code Editor**  
-  View, tweak, and export code directly from the browser interface.
+  Works with OpenAI GPT-4, Gemini, Claude
 
 ---
 
@@ -50,7 +44,6 @@ Clove is an **open-source autonomous agent** that helps you generate, configure,
 
 - Generate or clone `.env` files on the fly  
 - Secure sensitive values  
-- Auto-setup service keys (Supabase, Cloudinary, etc.)
 
 ---
 
