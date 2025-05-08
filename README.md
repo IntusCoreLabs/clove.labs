@@ -58,4 +58,4 @@ pnpm install
 ```
 📄 License
 
-MIT — Open and free for personal and commercial use.
+MIT — Open and free for personal use.
