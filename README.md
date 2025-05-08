@@ -12,6 +12,7 @@ Clove is an **open-source autonomous agent** that helps you generate, configure,
 - 🎨 **shadcn/ui** — Beautiful, accessible, and composable UI components  
 - ✅ **Zod** — Type-safe schema validation for forms and APIs  
 - 🔗 **Lucide React** — Icon library built for modern interfaces
+- 🔒 **Clerk** - Clerk for user authentication using Google or Github
 
 ---
 
