@@ -19,7 +19,7 @@ Commercial use (including selling, monetizing, offering paid services or softwar
 
 To request commercial rights, please contact:
 
-📧 **eurysosagarcia@gmail.com.com**  
+📧 **eurysosagarcia@gmail.com**  
 🌐 [https://intuscorelabs.vercel.app/](https://intuscorelabs.vercel.app/) *(LINKS)*
 
 ---
