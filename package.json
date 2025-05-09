@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.19.2",
     "@google/generative-ai": "latest",
     "@hookform/resolvers": "^3.9.1",
     "@monaco-editor/react": "latest",
