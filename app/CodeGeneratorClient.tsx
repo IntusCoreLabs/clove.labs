@@ -1,3 +1,4 @@
+
 "use client"
 
 import type React from "react"
@@ -19,6 +20,7 @@ import {
   FileVideo,
   FileBadge,
   Sparkles,
+  PlusCircle,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -124,55 +126,106 @@ export default function CodeGeneratorClient() {
   const promptRef = useRef<HTMLTextAreaElement>(null)
   const [generationError, setGenerationError] = useState<string | null>(null)
   const [showFileExplorer, setShowFileExplorer] = useState(false)
+  const [isNewProject, setIsNewProject] = useState(true)
+  const [projectHistory, setProjectHistory] = useState<string[]>([])
 
   // Añadir el hook dentro del componente CodeGenerator
   const { toast } = useToast()
 
   // Función para generar código usando solo Gemini
-  const generateCode = async () => {
+  const generateCode = async (startNewProject = false) => {
     if (!prompt.trim()) return
 
     setIsGenerating(true)
-    setFiles([])
     setGenerationError(null)
+
+    // Si es un nuevo proyecto, limpiamos los archivos existentes
+    if (startNewProject || isNewProject) {
+      setFiles([])
+      setProjectHistory([prompt])
+      setIsNewProject(false)
+    } else {
+      // Añadimos el prompt actual al historial del proyecto
+      setProjectHistory((prev) => [...prev, prompt])
+    }
+
     setShowFileExplorer(true)
+
+    // Construir el prompt para la IA
+    let fullPrompt = prompt
+
+    // Si no es un nuevo proyecto, incluimos información sobre los archivos existentes
+    if (!startNewProject && !isNewProject && files.length > 0) {
+      const existingFiles = files.map((file) => `${file.path} ${file.type === "folder" ? "(folder)" : ""}`).join("\n")
+
+      fullPrompt = `Continúa trabajando en el proyecto existente. 
+Estos son los archivos que ya existen:
+${existingFiles}
+
+Historial de prompts anteriores:
+${projectHistory.join("\n- ")}
+
+Nueva solicitud: ${prompt}
+
+Por favor, añade o modifica archivos según sea necesario para implementar esta nueva funcionalidad. 
+No repitas archivos que ya existen a menos que necesiten modificaciones.`
+    }
 
     // Mostrar notificación de inicio
     toast({
-      title: "clove is generating",
-      description: "clove is processing the request",
+      title:
+        startNewProject || isNewProject
+          ? "clove is generating a new project"
+          : "processing the new request",
+      description: "clove is processing your request",
     })
 
     try {
       // Use Gemini to generate code
-      const generatedFiles = await generateCodeWithGemini(prompt)
+      const generatedFiles = await generateCodeWithGemini(fullPrompt)
 
-      // Simulate progressive file generation
+      // Crear un mapa de archivos existentes para facilitar la búsqueda
+      const existingFilesMap = new Map(files.map((file) => [file.path, file]))
+
+      // Procesar los archivos generados
       for (let i = 0; i < generatedFiles.length; i++) {
         const file = generatedFiles[i]
 
-        // Add file to state
-        setFiles((prev) => [...prev, file])
+        // Verificar si el archivo ya existe
+        if (existingFilesMap.has(file.path)) {
+          // Actualizar el archivo existente
+          setFiles((prev) => prev.map((f) => (f.path === file.path ? { ...f, content: file.content } : f)))
 
-        // If it's a folder, expand it
-        if (file.type === "folder") {
-          setExpandedFolders((prev) => {
-            const newSet = new Set(prev)
-            newSet.add(file.path)
-            return newSet
+          // Notificar al usuario
+          toast({
+            title: "Updated file",
+            description: `the file has been updated ${file.path}`,
+            duration: 3000,
           })
+        } else {
+          // Añadir nuevo archivo
+          setFiles((prev) => [...prev, file])
+
+          // Si es una carpeta, expandirla
+          if (file.type === "folder") {
+            setExpandedFolders((prev) => {
+              const newSet = new Set(prev)
+              newSet.add(file.path)
+              return newSet
+            })
+          }
+
+          // Seleccionar el primer archivo nuevo automáticamente
+          if (i === 0 && file.type === "file" && !selectedFile) {
+            setSelectedFile(file.path)
+          }
         }
 
-        // Select the first file automatically
-        if (i === 0 && file.type === "file") {
-          setSelectedFile(file.path)
-        }
-
-        // Add a small delay to simulate progressive generation
+        // Añadir un pequeño retraso para simular generación progresiva
         await new Promise((resolve) => setTimeout(resolve, 100))
       }
 
-      // Select the first file if none was selected
+      // Seleccionar el primer archivo si ninguno fue seleccionado
       if (!selectedFile && generatedFiles.find((f) => f.type === "file")) {
         const firstFile = generatedFiles.find((f) => f.type === "file")
         if (firstFile) setSelectedFile(firstFile.path)
@@ -180,8 +233,9 @@ export default function CodeGeneratorClient() {
 
       // Al finalizar con éxito
       toast({
-        title: "Code generated",
-        description: `Se han creado ${generatedFiles.length} archivos para tu proyecto.`,
+        title:
+          startNewProject || isNewProject ? "new project generated" : "changes added to the project",
+        description: `Se han ${startNewProject || isNewProject ? "created" : "added/updated"} ${generatedFiles.length} files.`,
       })
     } catch (error) {
       console.error("Error generating code:", error)
@@ -194,7 +248,7 @@ export default function CodeGeneratorClient() {
           variant: "destructive",
           title: "Configuration error",
           description:
-            "The Google API key is missing. Set NEXT_PUBLIC_GOOGLE_API_KEY in your environment variables."
+            "Missing API key, check the .env",
         })
       } else if (
         errorMessage.includes("parsing") ||
@@ -204,20 +258,21 @@ export default function CodeGeneratorClient() {
         // Handle JSON parsing errors
         toast({
           variant: "destructive",
-          title: "Error de formato",
+          title: "Format error",
           description:
-            "Hubo un problema con el formato de la respuesta de Gemini. Se ha creado una estructura básica de proyecto.",
+            "clove had a problem with the project format",
         })
       } else {
         // Mostrar notificación de error
         toast({
           variant: "destructive",
-          title: "Error al generar código",
-          description: "Ha ocurrido un problema al procesar tu solicitud con Gemini.",
+          title: "Error generating code",
+          description: "clove had a problem processing your request",
         })
       }
     } finally {
       setIsGenerating(false)
+      setPrompt("") // Limpiar el prompt después de generar
     }
   }
 
@@ -236,7 +291,7 @@ export default function CodeGeneratorClient() {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && e.metaKey) {
       e.preventDefault()
-      generateCode()
+      generateCode(false) // No iniciar un nuevo proyecto al usar el atajo de teclado
     }
   }
 
@@ -292,9 +347,29 @@ export default function CodeGeneratorClient() {
     navigator.clipboard.writeText(content)
 
     toast({
-      title: "Código copiado",
-      description: `El contenido de ${selectedFile} ha sido copiado al portapapeles.`,
+      title: "copied",
+      description: `the content has been copied ${selectedFile} to the clipboard.`,
     })
+  }
+
+  // Función para iniciar un nuevo proyecto
+  const startNewProject = () => {
+    if (files.length > 0) {
+      if (confirm("Are you sure you want to start a new project? All current files will be lost.")) {
+        setFiles([])
+        setSelectedFile(null)
+        setExpandedFolders(new Set())
+        setIsNewProject(true)
+        setProjectHistory([])
+        setShowFileExplorer(false)
+        setPrompt("")
+
+        toast({
+          title: "new project started",
+          description: "The workspace has been cleared for a new project.",
+        })
+      }
+    }
   }
 
   return (
@@ -320,7 +395,7 @@ export default function CodeGeneratorClient() {
                 className="min-h-[150px] resize-none text-lg p-4"
               />
               <Button
-                onClick={generateCode}
+                onClick={() => generateCode(true)}
                 disabled={isGenerating || !prompt.trim()}
                 className="h-[50px] w-full bg-primary hover:bg-primary/90"
                 size="lg"
@@ -328,16 +403,16 @@ export default function CodeGeneratorClient() {
                 {isGenerating ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    clove is generrating...
+                    Generating code with clove...
                   </>
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4 mr-2" />
-                    Generate
+                    generate code with clove
                   </>
                 )}
               </Button>
-              <p className="text-xs text-center text-muted-foreground mt-2">Presiona ⌘ + Enter para generar</p>
+              <p className="text-xs text-center text-muted-foreground mt-2">Press ⌘ + Enter to generate</p>
             </div>
           </div>
         </div>
@@ -345,7 +420,12 @@ export default function CodeGeneratorClient() {
         <div className="flex flex-1 overflow-hidden">
           {/* File explorer */}
           <div className="w-64 border-r p-4 overflow-y-auto">
-            <div className="text-sm font-medium mb-2">Project Files</div>
+            <div className="flex justify-between items-center mb-2">
+              <div className="text-sm font-medium">Project Files</div>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={startNewProject} title="New proyect">
+                <PlusCircle className="h-3.5 w-3.5" />
+              </Button>
+            </div>
             <div className="space-y-1">
               {files.length === 0 && !isGenerating && !generationError && (
                 <div className="text-muted-foreground text-sm italic">No files generated yet</div>
@@ -417,7 +497,7 @@ export default function CodeGeneratorClient() {
                 {isGenerating ? (
                   <div className="flex flex-col items-center">
                     <Loader2 className="h-8 w-8 animate-spin mb-2" />
-                    <p>generating your project...</p>
+                    <p>Generating your project with clove...</p>
                   </div>
                 ) : (
                   <p>No file selected</p>
@@ -438,21 +518,38 @@ export default function CodeGeneratorClient() {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Describe what you want to build... (e.g., 'Create a React todo app with local storage')"
+                placeholder="Describe what else you want to add to your project..."
                 className="min-h-[60px] resize-none pr-12"
               />
               <div className="absolute right-3 bottom-3 text-xs text-muted-foreground">
                 {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <span>⌘ + Enter</span>}
               </div>
             </div>
-            <Button
-              onClick={generateCode}
-              disabled={isGenerating || !prompt.trim()}
-              className="h-[60px] px-4 bg-primary hover:bg-primary/90"
-            >
-              {isGenerating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Sparkles className="h-4 w-4 mr-2" />}
-              clove
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={() => generateCode(true)}
+                disabled={isGenerating || !prompt.trim()}
+                variant="outline"
+                className="h-[60px] px-4"
+                title="generate new project"
+              >
+                <PlusCircle className="h-4 w-4 mr-2" />
+                New
+              </Button>
+              <Button
+                onClick={() => generateCode(false)}
+                disabled={isGenerating || !prompt.trim()}
+                className="h-[60px] px-4 bg-primary hover:bg-primary/90"
+                title="add to the current project"
+              >
+                {isGenerating ? (
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                ) : (
+                  <Sparkles className="h-4 w-4 mr-2" />
+                )}
+                Add
+              </Button>
+            </div>
           </div>
         </div>
       )}

@@ -1,3 +1,4 @@
+
 "use server"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
@@ -20,10 +21,9 @@ export async function generateCodeWithGemini(prompt: string): Promise<FileStruct
     // Lista de modelos para intentar, en orden de preferencia
     // Comenzamos con modelos más básicos que tienen mayor cuota gratuita
     const modelsToTry = [
-      "gemini-pro", // Modelo básico con mayor cuota gratuita
-      "gemini-1.0-pro", // Alternativa (aunque este parece no existir ya)
-      "gemini-1.5-flash", // Modelo más rápido si está disponible
-      "gemini-1.5-pro", // Modelo más avanzado (pero con cuota más limitada)
+      "gemini-2.5-pro",
+      "gemini-1.5-flash",
+      "gemini-2.5-flash",
     ]
 
     let model = null
@@ -78,6 +78,9 @@ export async function generateCodeWithGemini(prompt: string): Promise<FileStruct
 
     console.log(`Using model: ${modelUsed} for generation`)
 
+    // Determinar si es una continuación de proyecto o un nuevo proyecto
+    const isContinuation = prompt.includes("Continúa trabajando en el proyecto existente")
+
     // Create a system prompt that instructs Gemini how to generate code
     const fullPrompt = `
 You are Gemini, a highly capable coding assistant designed to generate clear, complete, production-ready code. You emulate the skills and discipline of a senior software engineer.
@@ -94,6 +97,18 @@ Your core principles:
 - Never include "fill this" comments or incomplete placeholders.
 - Do not write dynamic imports or lazy loading unless explicitly requested.
 - Prefer native browser APIs (like \`IntersectionObserver\`, \`localStorage\`) over third-party libraries.
+
+${isContinuation
+        ? `
+IMPORTANT: You are continuing work on an existing project. The user has provided information about existing files.
+When generating code:
+1. If you need to modify an existing file, include the full updated content for that file.
+2. If you're creating new files, make sure they integrate well with the existing structure.
+3. Don't recreate files that already exist unless they need modifications.
+4. Consider the project history and previous prompts when making additions.
+`
+        : ""
+      }
 
 If the task requires UI code:
 - Ensure proper accessibility (alt text, ARIA roles, \`sr-only\` where needed).
