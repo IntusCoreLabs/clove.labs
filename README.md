@@ -4,6 +4,12 @@ Clove is an **open-source autonomous agent** that helps you generate, configure,
 
 ---
 
+> [!IMPORTANT]  
+> clove no se desarrolló en solo 2 semanas, han pasado aproximadamente 2 meses o más desde que comenzó esta idea, pero gracias a este hackathon se decidio terminarlo y presentarlo.
+> 
+> clove tampoco habia salido al publico antes y nos alegra mostarselo y es 100% open sources, puedes hacer lo que quiera, pero para comercializar este producto porfavor leer la licensia y ponerse en contacto con nosotros.
+
+
 ## 🧪 Tech Stack
 
 - ⚛️ **Next.js** — Full-stack React framework for scalable web apps  
