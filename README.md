@@ -1,6 +1,6 @@
-# 🌿 Clove — Your AI Project Builder Agent
+# 🌿 clove.labs — Your AI Project Builder Agent
 
-Clove is an **open-source autonomous agent** that helps you generate, configure, and scaffold software projects using artificial intelligence. Whether you're building a web app, dashboard, or API, Clove gets you started instantly — clean, typed, and production-ready.
+Clove is an **open-source autonomous agent** that helps you generate, configure, and scaffold software projects using artificial intelligence. Whether you're building a web app, dashboard, or API, clove gets you started instantly — clean, typed, and production-ready.
 
 ---
 
