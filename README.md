@@ -1,67 +1,78 @@
-# 🌿 clove.labs — Your AI Project Builder Agent
-
-Clove is an **open-source autonomous agent** that helps you generate, configure, and scaffold software projects using artificial intelligence. Whether you're building a web app, dashboard, or API, clove gets you started instantly — clean, typed, and production-ready.
 
 ---
 
-> [!IMPORTANT]  
-> clove no se desarrolló en solo 2 semanas, han pasado aproximadamente 2 meses o más desde que comenzó esta idea, pero gracias a este hackathon se decidio terminarlo y presentarlo.
-> 
-> clove tampoco habia salido al publico antes y nos alegra mostarselo y es 100% open sources, puedes hacer lo que quiera, pero para comercializar este producto porfavor leer la licensia y ponerse en contacto con nosotros.
+# 🌿 clove.labs — Tu Agente para construir proyectos por ti.
 
-
-## 🧪 Tech Stack
-
-- ⚛️ **Next.js** — Full-stack React framework for scalable web apps  
-- 💻 **TypeScript** — Strictly typed JavaScript for safer code  
-- 🧩 **Monaco Editor** — Powering the in-browser code editing experience  
-- 🎨 **shadcn/ui** — Beautiful, accessible, and composable UI components  
-- ✅ **Zod** — Type-safe schema validation for forms and APIs  
-- 🔗 **Lucide React** — Icon library built for modern interfaces
-- 🔒 **Clerk** —  Clerk for user authentication using Google or Github
+**Clove** es un **agente autónomo de código abierto** que te ayuda a generar, configurar y estructurar proyectos de software usando inteligencia artificial. Ya sea que estés creando una app web o una API, clove te pone en marcha al instante: limpio, tipado y listo para producción.
 
 ---
 
-## ✨ Features
+> [!IMPORTANT]
+> clove no se desarrolló en solo 2 semanas; han pasado aproximadamente 2 meses o más desde que comenzó esta idea. Sin embargo, gracias a este hackathon decidimos terminarlo y presentarlo.
+>
+> clove tampoco se había lanzado públicamente antes, y nos alegra mostrártelo. Es 100% open source: puedes hacer lo que quieras con él, pero si deseas **comercializar el producto**, por favor **lee la licencia** y **ponte en contacto con nosotros**.
 
-- 🧠 **AI-Driven Project Generation**  
-  Describe your idea, and Clove scaffolds your entire project.
+## 🧪 Tecnologías Usadas
 
-- 📦 **Stack-Aware Scaffolding**  
-  Clove generates structured code with proper validation, components, and API routes.
-
-- 🧱 **Framework & Tooling Choices**  
-  Supports React, Next.js, Tailwind, and more.
-
-- 🤖 **Multi-Model AI Support**  
-  Works with OpenAI GPT-4, Gemini, Claude
-
----
-
-## 🧠 AI Models Supported
-
-- OpenAI GPT-4 / GPT-3.5
-- Google Gemini Pro
-- Anthropic Claude
-- Local LLMs via Ollama or LM Studio *(coming soon)*
+* ⚛️ **Next.js** — Framework full-stack de React para apps web escalables
+* 💻 **TypeScript** — JavaScript tipado para un código más seguro
+* 🧩 **Monaco Editor** — Editor de código en el navegador, potente y funcional
+* 🎨 **shadcn/ui** — Componentes de UI accesibles, bonitos y componibles
+* ✅ **Zod** — Validación de esquemas tipados para formularios y APIs
+* 🔗 **Lucide React** — Librería de íconos moderna y ligera
+* 🔒 **Clerk** — Autenticación de usuarios con Google o GitHub
 
 ---
 
-## 🔐 Environment Handling
+<video width="600" controls>
+  <source src="https://youtu.be/-YEKupUMPMs?si=kbMO0GH92scpuPOM">
+  Tu navegador no soporta el tag de video.
+</video>
 
-- Generate or clone `.env` files on the fly  
-- Secure sensitive values  
+## ✨ Funcionalidades
+
+* 🧠 **Generación de Proyectos con IA**
+  Describe tu idea y Clove generará toda la estructura del proyecto por ti.
+
+* 📦 **Generación Inteligente según Stack**
+  Clove genera código estructurado con validaciones, componentes y rutas de API.
+
+* 🧱 **Soporte para Frameworks y Herramientas**
+  Compatible con React, Next.js, Tailwind y más.
+
+* 🤖 **Soporte para Múltiples Modelos de IA**
+  Funciona con OpenAI GPT-4, Gemini, Claude, etc.
 
 ---
 
-## 🚀 Getting Started
+## 🧠 Modelos de IA Compatibles
+
+* OpenAI GPT-4 / GPT-3.5
+* Google Gemini Pro
+* Anthropic Claude
+* Modelos locales con Ollama o LM Studio *(próximamente)*
+
+---
+
+## 🔐 Manejo de Entornos
+
+* Genera o clona archivos `.env` automáticamente
+* Manejo seguro de valores sensibles
+
+---
+
+## 🚀 Comenzar
 
 ```bash
 git clone https://github.com/IntusCoreLabs/clove.labs.git
 cd clove
 pnpm install
-
 ```
-📄 License
 
-MIT — Open and free for personal use.
+---
+
+## 📄 Licencia
+
+MIT — Libre y abierta para uso personal.
+
+---
