@@ -1,0 +1,303 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Theme */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 235 75% 60%; /* Slack blue */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 279 75% 60%; /* Slack purple */
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --success: 143 47% 52%; /* Slack green */
+    --success-foreground: 210 40% 98%;
+
+    --warning: 35 92% 65%; /* Slack yellow */
+    --warning-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 235 75% 60%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark Theme */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 235 75% 60%; /* Slack blue */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 279 75% 60%; /* Slack purple */
+    --accent-foreground: 210 40% 98%;
+
+    --success: 143 47% 52%; /* Slack green */
+    --success-foreground: 210 40% 98%;
+
+    --warning: 35 92% 65%; /* Slack yellow */
+    --warning-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 235 75% 60%;
+  }
+
+  .gruvbox {
+    /* Gruvbox Theme */
+    --background: 50 10% 16%;
+    --foreground: 50 11% 87%;
+
+    --card: 50 10% 20%;
+    --card-foreground: 50 11% 87%;
+
+    --popover: 50 10% 16%;
+    --popover-foreground: 50 11% 87%;
+
+    --primary: 40 70% 50%; /* Gruvbox yellow */
+    --primary-foreground: 50 10% 16%;
+
+    --secondary: 0 40% 40%; /* Gruvbox red */
+    --secondary-foreground: 50 11% 87%;
+
+    --muted: 50 10% 25%;
+    --muted-foreground: 50 11% 70%;
+
+    --accent: 100 30% 45%; /* Gruvbox green */
+    --accent-foreground: 50 11% 87%;
+
+    --success: 100 30% 45%; /* Gruvbox green */
+    --success-foreground: 50 11% 87%;
+
+    --warning: 40 70% 50%; /* Gruvbox yellow */
+    --warning-foreground: 50 10% 16%;
+
+    --destructive: 0 40% 40%; /* Gruvbox red */
+    --destructive-foreground: 50 11% 87%;
+
+    --border: 50 10% 30%;
+    --input: 50 10% 30%;
+    --ring: 40 70% 50%;
+  }
+
+  .purple {
+    /* Purple Theme (Slack inspired) */
+    --background: 280 50% 8%;
+    --foreground: 280 20% 98%;
+
+    --card: 280 50% 12%;
+    --card-foreground: 280 20% 98%;
+
+    --popover: 280 50% 8%;
+    --popover-foreground: 280 20% 98%;
+
+    --primary: 279 75% 60%; /* Slack purple */
+    --primary-foreground: 280 20% 98%;
+
+    --secondary: 280 50% 20%;
+    --secondary-foreground: 280 20% 98%;
+
+    --muted: 280 50% 16%;
+    --muted-foreground: 280 20% 80%;
+
+    --accent: 235 75% 60%; /* Slack blue */
+    --accent-foreground: 280 20% 98%;
+
+    --success: 143 47% 52%; /* Slack green */
+    --success-foreground: 280 20% 98%;
+
+    --warning: 35 92% 65%; /* Slack yellow */
+    --warning-foreground: 280 50% 8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 280 20% 98%;
+
+    --border: 280 50% 25%;
+    --input: 280 50% 25%;
+    --ring: 279 75% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Estilos básicos para resaltado de código */
+pre {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: 0;
+  margin: 0;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.dark pre {
+  background-color: #121212;
+  border: 1px solid #333;
+}
+
+.gruvbox pre {
+  background-color: #282828;
+  color: #ebdbb2;
+  border: 1px solid #504945;
+}
+
+.purple pre {
+  background-color: #1a1025;
+  color: #e9e1f8;
+  border: 1px solid #4c3a70;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+/* Colores básicos para diferentes elementos de código */
+.code-keyword {
+  color: #569cd6;
+}
+.code-string {
+  color: #ce9178;
+}
+.code-comment {
+  color: #6a9955;
+}
+.code-number {
+  color: #b5cea8;
+}
+.code-function {
+  color: #dcdcaa;
+}
+.code-operator {
+  color: #d4d4d4;
+}
+.code-punctuation {
+  color: #d4d4d4;
+}
+.code-class-name {
+  color: #4ec9b0;
+}
+.code-tag {
+  color: #569cd6;
+}
+.code-attr-name {
+  color: #9cdcfe;
+}
+.code-attr-value {
+  color: #ce9178;
+}
+
+/* Gruvbox syntax highlighting */
+.gruvbox .code-keyword {
+  color: #fb4934; /* red */
+}
+.gruvbox .code-string {
+  color: #b8bb26; /* green */
+}
+.gruvbox .code-comment {
+  color: #928374; /* gray */
+}
+.gruvbox .code-number {
+  color: #d3869b; /* purple */
+}
+.gruvbox .code-function {
+  color: #fabd2f; /* yellow */
+}
+.gruvbox .code-operator {
+  color: #ebdbb2; /* fg */
+}
+.gruvbox .code-punctuation {
+  color: #ebdbb2; /* fg */
+}
+.gruvbox .code-class-name {
+  color: #8ec07c; /* aqua */
+}
+.gruvbox .code-tag {
+  color: #fb4934; /* red */
+}
+.gruvbox .code-attr-name {
+  color: #fabd2f; /* yellow */
+}
+.gruvbox .code-attr-value {
+  color: #b8bb26; /* green */
+}
+
+/* Purple syntax highlighting */
+.purple .code-keyword {
+  color: #c678dd; /* purple */
+}
+.purple .code-string {
+  color: #98c379; /* green */
+}
+.purple .code-comment {
+  color: #7f848e; /* gray */
+}
+.purple .code-number {
+  color: #e5c07b; /* yellow */
+}
+.purple .code-function {
+  color: #61afef; /* blue */
+}
+.purple .code-operator {
+  color: #e9e1f8; /* fg */
+}
+.purple .code-punctuation {
+  color: #e9e1f8; /* fg */
+}
+.purple .code-class-name {
+  color: #56b6c2; /* cyan */
+}
+.purple .code-tag {
+  color: #c678dd; /* purple */
+}
+.purple .code-attr-name {
+  color: #e5c07b; /* yellow */
+}
+.purple .code-attr-value {
+  color: #98c379; /* green */
+}
