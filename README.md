@@ -26,10 +26,10 @@
 
 ## 🎥 Demo
 
-<video width="600" controls>
-  <source src="https://github.com/IntusCoreLabs/clove.labs/blob/main/public/demo.mp4" type="video/mp4">
-  Tu navegador no soporta el tag de video.
-</video>
+[![Ver demo en YouTube](https://img.youtube.com/vi/Pw4wzIJXXhk/0.jpg)](https://youtu.be/Pw4wzIJXXhk)
+
+> 🔗 [Haz clic aquí para ver la demo en YouTube](https://youtu.be/Pw4wzIJXXhk)
+
 
 ## ✨ Funcionalidades
 
