@@ -20,7 +20,7 @@
 * 🎨 **shadcn/ui** — Componentes de UI accesibles, bonitos y componibles
 * ✅ **Zod** — Validación de esquemas tipados para formularios y APIs
 * 🔗 **Lucide React** — Librería de íconos moderna y ligera
-* 🔒 **Clerk** — Autenticación de usuarios con Google o GitHub
+* 🔒 **Clerk** — Para Autenticación de usuarios usando Google y GitHub, para un mayor manejo de las cuentas
 
 ---
 
