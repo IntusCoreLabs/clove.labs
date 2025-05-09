@@ -27,7 +27,7 @@
 ## 🎥 Demo
 
 <video width="600" controls>
-  <source src="https://youtu.be/-YEKupUMPMs?si=kbMO0GH92scpuPOM">
+  <source src="https://github.com/IntusCoreLabs/clove.labs/blob/main/public/demo.mp4" type="video/mp4">
   Tu navegador no soporta el tag de video.
 </video>
 
