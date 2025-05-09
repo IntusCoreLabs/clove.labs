@@ -33,6 +33,12 @@ import { MonacoEditor } from "@/components/monaco-editor"
 import { NavBar } from "@/components/nav-bar"
 import { FilePreview } from "@/components/file-preview"
 
+
+import { useSignIn } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
+
+
+
 // Definir colores para diferentes tipos de archivos
 const fileColors = {
   js: "text-yellow-500",
@@ -128,6 +134,23 @@ export default function CodeGeneratorClient() {
   const [showFileExplorer, setShowFileExplorer] = useState(false)
   const [isNewProject, setIsNewProject] = useState(true)
   const [projectHistory, setProjectHistory] = useState<string[]>([])
+
+
+
+
+
+  const { isSignedIn } = useUser();
+  const { openSignIn } = useClerk();
+
+  const handleClick = async () => {
+    if (!isSignedIn) {
+      await openSignIn(); // Abre el modal de inicio de sesión
+      return;
+    }
+
+    generateCode(true); // Ejecuta la función si el usuario ha iniciado sesión
+  };
+
 
   // Añadir el hook dentro del componente CodeGenerator
   const { toast } = useToast()
@@ -395,7 +418,7 @@ No repitas archivos que ya existen a menos que necesiten modificaciones.`
                 className="min-h-[150px] resize-none text-lg p-4"
               />
               <Button
-                onClick={() => generateCode(true)}
+                onClick={handleClick}
                 disabled={isGenerating || !prompt.trim()}
                 className="h-[50px] w-full bg-primary hover:bg-primary/90"
                 size="lg"

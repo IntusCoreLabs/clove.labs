@@ -6,5 +6,10 @@ export const metadata = {
 }
 
 export default function CodeGenerator() {
-  return <CodeGeneratorClient />
+  return (
+    <CodeGeneratorClient />
+  )
 }
+
+
+
