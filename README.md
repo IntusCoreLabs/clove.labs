@@ -1,16 +1,16 @@
 
 ---
 
-# 🌿 clove.labs — Tu Agente para construir proyectos por ti.
+# 🌿 clove.labs — Describe it and clove builds it for you.
 
 **Clove** es un **agente autónomo de código abierto** que te ayuda a generar, configurar y estructurar proyectos de software usando inteligencia artificial. Ya sea que estés creando una app web o una API, clove te pone en marcha al instante: limpio, tipado y listo para producción.
 
 ---
 
-> [!IMPORTANT]
-> clove no se desarrolló en solo 2 semanas; han pasado aproximadamente 2 meses o más desde que comenzó esta idea. Sin embargo, gracias a este hackathon decidimos terminarlo y presentarlo.
->
-> clove tampoco se había lanzado públicamente antes, y nos alegra mostrártelo. Es 100% open source: puedes hacer lo que quieras con él, pero si deseas **comercializar el producto**, por favor **lee la licencia** y **ponte en contacto con nosotros**.
+> [!WARNING]
+> Puedes hacer un fork, modificarlo y mejorarlo libremente para uso personal o público (siempre que no sea con fines comerciales).
+Si deseas utilizar clove.labs con fines comerciales, por favor ponte en contacto con nosotros.
+
 
 ## 🧪 Tecnologías Usadas
 
