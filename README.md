@@ -66,9 +66,6 @@ pnpm install
 
 ---
 
-> [!IMPORTANT]
-> Clove has been in development for almost 3 months, it was not done in 2 weeks.
-
 
 ## 📄 License
 
