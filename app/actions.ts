@@ -2,6 +2,9 @@
 "use server"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
+import { cloveSystemPrompt } from '../prompt/systemprompt.js'
+
+
 export interface FileStructure {
   path: string
   type: "file" | "folder"
@@ -21,9 +24,8 @@ export async function generateCodeWithGemini(prompt: string): Promise<FileStruct
     // Lista de modelos para intentar, en orden de preferencia
     // Comenzamos con modelos más básicos que tienen mayor cuota gratuita
     const modelsToTry = [
-      "gemini-2.5-pro",
-      "gemini-1.5-flash",
-      "gemini-2.5-flash",
+      "gemini-2.0-flash",
+      "gemini-2.5-pro-preview-05-06",
     ]
 
     let model = null
@@ -79,19 +81,26 @@ export async function generateCodeWithGemini(prompt: string): Promise<FileStruct
     console.log(`Using model: ${modelUsed} for generation`)
 
     // Determinar si es una continuación de proyecto o un nuevo proyecto
-    const isContinuation = prompt.includes("Continúa trabajando en el proyecto existente")
+    //const isContinuation = prompt.includes("Continúa trabajando en el proyecto existente")
 
-    // Create a system prompt that instructs Gemini how to generate code
+
+
+
+    const isContinuation = "Continúa trabajando en el proyecto existente"
+
+
     const fullPrompt = `
-You are Gemini, a highly capable coding assistant designed to generate clear, complete, production-ready code. You emulate the skills and discipline of a senior software engineer.
+    // Create a system prompt that instructs Gemini how to generate code
+    const fullPrompt =
+You are Gemini, a highy capable coding assistant designed to generate clear, complete, production - ready code.You emulate the skills and discipline of a senior software engineer.
 
-You specialize in modern development, with expertise in React, Next.js (App Router), Tailwind CSS, shadcn/ui, TypeScript, JavaScript, HTML, and Node.js. You follow current best practices and produce high-quality, accessible, and maintainable code.
+You specialize in modern development, with expertise in React, Next.js(App Router), Tailwind CSS, shadcn / ui, TypeScript, JavaScript, HTML, and Node.js.You follow current best practices and produce high - quality, accessible, and maintainable code.
 
 Your core principles:
 
-- Write **complete solutions** in a single file unless multi-file structure is requested.
+- Write ** complete solutions ** in a single file unless multi - file structure is requested.
 - Use semantic, accessible, responsive HTML and components.
-- Style using Tailwind CSS with modern class names (e.g. \`bg-primary\`, \`text-primary-foreground\`).
+- Style using Tailwind CSS with modern class names (e.g.\`bg-primary\`, \`text-primary-foreground\`).
 - Leverage \`shadcn/ui\` for UI components and \`lucide-react\` for icons.
 - Use function components and React hooks. Avoid class components.
 - Never include "fill this" comments or incomplete placeholders.
@@ -150,9 +159,9 @@ ONLY return the JSON array.
 
 User request: ${prompt}
 
-Remember to ONLY return a valid JSON array with the file structure.`
+Remember to ONLY return a valid JSON array with the file structure. `
 
-    // Call Gemini to generate code - using the correct format for Gemini API
+
     // Add safety timeout to prevent hanging
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(() => reject(new Error("Request timed out after 30 seconds")), 30000)

@@ -21,7 +21,7 @@ export function NavBar() {
             variant="destructive"
             size="sm"
             className="bg-destructive/90 hover:bg-primary"
-            onClick={() => signOut({ redirectUrl: "/" })}
+            onClick={() => signOut({ redirectUrl: "https://clove.labs.vercel.app" })}
           >
             Log out
           </Button>

@@ -38,7 +38,6 @@ import { useSignIn } from "@clerk/nextjs";
 import { useUser, useClerk } from "@clerk/nextjs";
 
 
-
 // Definir colores para diferentes tipos de archivos
 const fileColors = {
   js: "text-yellow-500",
@@ -258,7 +257,7 @@ No repitas archivos que ya existen a menos que necesiten modificaciones.`
       toast({
         title:
           startNewProject || isNewProject ? "new project generated" : "changes added to the project",
-        description: `Se han ${startNewProject || isNewProject ? "created" : "added/updated"} ${generatedFiles.length} files.`,
+        description: `Have been ${startNewProject || isNewProject ? "created" : "added/updated"} ${generatedFiles.length} files.`,
       })
     } catch (error) {
       console.error("Error generating code:", error)
