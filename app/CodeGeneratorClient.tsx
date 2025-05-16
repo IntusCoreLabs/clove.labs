@@ -180,17 +180,17 @@ export default function CodeGeneratorClient() {
     if (!startNewProject && !isNewProject && files.length > 0) {
       const existingFiles = files.map((file) => `${file.path} ${file.type === "folder" ? "(folder)" : ""}`).join("\n")
 
-      fullPrompt = `Continúa trabajando en el proyecto existente. 
-Estos son los archivos que ya existen:
+      fullPrompt = `Continue working on the existing project.
+These are the existing files:
 ${existingFiles}
 
-Historial de prompts anteriores:
+History of previous prompts:
 ${projectHistory.join("\n- ")}
 
-Nueva solicitud: ${prompt}
+New application: ${prompt}
 
-Por favor, añade o modifica archivos según sea necesario para implementar esta nueva funcionalidad. 
-No repitas archivos que ya existen a menos que necesiten modificaciones.`
+Please add or modify files as needed to implement this new functionality.
+Do not repeat existing files unless they require modification.`
     }
 
     // Mostrar notificación de inicio
