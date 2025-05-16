@@ -1,6 +1,6 @@
 # 🌿 clove.labs — Describe it and Clove builds it for you.
 
-**Clove** is an **open-source autonomous agent** that helps you generate, configure, and structure software projects using artificial intelligence. Whether you're building a web app or an API, Clove gets you started instantly: clean, typed, and production-ready.
+**clove** is an **open-source autonomous agent** that helps you generate, configure, and structure software projects using artificial intelligence. Whether you're building a web app or an API, Clove gets you started instantly: clean, typed, and production-ready.
 
 ---
 
