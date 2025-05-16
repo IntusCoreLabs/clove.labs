@@ -1,12 +1,7 @@
 import type React from "react"
 import "./globals.css"
 import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
+  ClerkProvider
 } from '@clerk/nextjs'
 
 import type { Metadata } from "next"
@@ -59,3 +54,7 @@ export default function RootLayout({
     </ClerkProvider>
   )
 }
+
+
+
+
