@@ -1,4 +1,3 @@
-
 "use client"
 
 import type React from "react"
@@ -34,11 +33,9 @@ import { NavBar } from "@/components/nav-bar"
 import { FilePreview } from "@/components/file-preview"
 
 
-import { useSignIn } from "@clerk/nextjs";
 import { useUser, useClerk } from "@clerk/nextjs";
 
 
-// Definir colores para diferentes tipos de archivos
 const fileColors = {
   js: "text-yellow-500",
   jsx: "text-blue-500",
@@ -62,7 +59,6 @@ const fileColors = {
   default: "text-gray-400",
 }
 
-// Función para obtener el icono adecuado según la extensión del archivo
 const getFileIcon = (path: string) => {
   const extension = path.split(".").pop()?.toLowerCase() || ""
 
@@ -104,7 +100,6 @@ const getFileIcon = (path: string) => {
   }
 }
 
-// Función para obtener el color adecuado según la extensión del archivo
 const getFileColor = (path: string, type: string) => {
   if (type === "folder") return fileColors.folder
 
@@ -151,49 +146,44 @@ export default function CodeGeneratorClient() {
   };
 
 
-  // Añadir el hook dentro del componente CodeGenerator
   const { toast } = useToast()
 
-  // Función para generar código usando solo Gemini
   const generateCode = async (startNewProject = false) => {
     if (!prompt.trim()) return
 
     setIsGenerating(true)
     setGenerationError(null)
 
-    // Si es un nuevo proyecto, limpiamos los archivos existentes
     if (startNewProject || isNewProject) {
       setFiles([])
       setProjectHistory([prompt])
       setIsNewProject(false)
     } else {
-      // Añadimos el prompt actual al historial del proyecto
       setProjectHistory((prev) => [...prev, prompt])
     }
 
     setShowFileExplorer(true)
 
-    // Construir el prompt para la IA
     let fullPrompt = prompt
 
-    // Si no es un nuevo proyecto, incluimos información sobre los archivos existentes
     if (!startNewProject && !isNewProject && files.length > 0) {
       const existingFiles = files.map((file) => `${file.path} ${file.type === "folder" ? "(folder)" : ""}`).join("\n")
 
       fullPrompt = `Continue working on the existing project.
-These are the existing files:
-${existingFiles}
+      These are the existing files:
+      ${existingFiles}
 
-History of previous prompts:
-${projectHistory.join("\n- ")}
+      History of previous prompts:
+      ${projectHistory.join("\n- ")}
 
-New application: ${prompt}
 
-Please add or modify files as needed to implement this new functionality.
-Do not repeat existing files unless they require modification.`
+      New application: ${prompt}
+
+      Please add or modify files as needed to implement this new functionality.
+      Do not repeat existing files unless they require modification.`
+
     }
 
-    // Mostrar notificación de inicio
     toast({
       title:
         startNewProject || isNewProject
@@ -203,32 +193,24 @@ Do not repeat existing files unless they require modification.`
     })
 
     try {
-      // Use Gemini to generate code
       const generatedFiles = await generateCodeWithGemini(fullPrompt)
 
-      // Crear un mapa de archivos existentes para facilitar la búsqueda
       const existingFilesMap = new Map(files.map((file) => [file.path, file]))
 
-      // Procesar los archivos generados
       for (let i = 0; i < generatedFiles.length; i++) {
         const file = generatedFiles[i]
 
-        // Verificar si el archivo ya existe
         if (existingFilesMap.has(file.path)) {
-          // Actualizar el archivo existente
           setFiles((prev) => prev.map((f) => (f.path === file.path ? { ...f, content: file.content } : f)))
 
-          // Notificar al usuario
           toast({
             title: "Updated file",
             description: `the file has been updated ${file.path}`,
             duration: 3000,
           })
         } else {
-          // Añadir nuevo archivo
           setFiles((prev) => [...prev, file])
 
-          // Si es una carpeta, expandirla
           if (file.type === "folder") {
             setExpandedFolders((prev) => {
               const newSet = new Set(prev)
@@ -237,23 +219,19 @@ Do not repeat existing files unless they require modification.`
             })
           }
 
-          // Seleccionar el primer archivo nuevo automáticamente
           if (i === 0 && file.type === "file" && !selectedFile) {
             setSelectedFile(file.path)
           }
         }
 
-        // Añadir un pequeño retraso para simular generación progresiva
         await new Promise((resolve) => setTimeout(resolve, 100))
       }
 
-      // Seleccionar el primer archivo si ninguno fue seleccionado
       if (!selectedFile && generatedFiles.find((f) => f.type === "file")) {
         const firstFile = generatedFiles.find((f) => f.type === "file")
         if (firstFile) setSelectedFile(firstFile.path)
       }
 
-      // Al finalizar con éxito
       toast({
         title:
           startNewProject || isNewProject ? "new project generated" : "changes added to the project",
@@ -264,7 +242,6 @@ Do not repeat existing files unless they require modification.`
       const errorMessage = error instanceof Error ? error.message : "Error desconocido al generar código"
       setGenerationError(errorMessage)
 
-      // Check if it's an API key error
       if (errorMessage.includes("API key")) {
         toast({
           variant: "destructive",
@@ -277,7 +254,6 @@ Do not repeat existing files unless they require modification.`
         errorMessage.includes("JSON") ||
         errorMessage.includes("unexpected character")
       ) {
-        // Handle JSON parsing errors
         toast({
           variant: "destructive",
           title: "Format error",
@@ -285,7 +261,6 @@ Do not repeat existing files unless they require modification.`
             "clove had a problem with the project format",
         })
       } else {
-        // Mostrar notificación de error
         toast({
           variant: "destructive",
           title: "Error generating code",
@@ -317,7 +292,6 @@ Do not repeat existing files unless they require modification.`
     }
   }
 
-  // Auto-resize textarea
   useEffect(() => {
     if (promptRef.current) {
       promptRef.current.style.height = "auto"
@@ -325,14 +299,12 @@ Do not repeat existing files unless they require modification.`
     }
   }, [prompt])
 
-  // Get file content for the selected file
   const getFileContent = () => {
     if (!selectedFile) return ""
     const file = files.find((f) => f.path === selectedFile)
     return file?.content || ""
   }
 
-  // Get file extension for syntax highlighting
   const getFileExtension = () => {
     if (!selectedFile) return "text"
     const extension = selectedFile.split(".").pop()?.toLowerCase() || "text"
@@ -361,7 +333,6 @@ Do not repeat existing files unless they require modification.`
     return extensionMap[extension] || "text"
   }
 
-  // Añadir función para copiar código
   const copyFileContent = () => {
     if (!selectedFile) return
 
@@ -374,7 +345,6 @@ Do not repeat existing files unless they require modification.`
     })
   }
 
-  // Función para iniciar un nuevo proyecto
   const startNewProject = () => {
     if (files.length > 0) {
       if (confirm("Are you sure you want to start a new project? All current files will be lost.")) {
@@ -396,10 +366,8 @@ Do not repeat existing files unless they require modification.`
 
   return (
     <div className="flex flex-col h-screen bg-background">
-      {/* Header */}
       <NavBar />
 
-      {/* Main content */}
       {!showFileExplorer ? (
         <div className="flex-1 flex flex-col items-center justify-center p-6">
           <div className="w-full max-w-3xl">
@@ -440,7 +408,6 @@ Do not repeat existing files unless they require modification.`
         </div>
       ) : (
         <div className="flex flex-1 overflow-hidden">
-          {/* File explorer */}
           <div className="w-64 border-r p-4 overflow-y-auto">
             <div className="flex justify-between items-center mb-2">
               <div className="text-sm font-medium">Project Files</div>
@@ -479,7 +446,6 @@ Do not repeat existing files unless they require modification.`
             </div>
           </div>
 
-          {/* Editor area */}
           <div className="flex-1 flex flex-col overflow-hidden">
             {selectedFile ? (
               <Tabs defaultValue="code" className="flex-1 flex flex-col">
@@ -500,7 +466,6 @@ Do not repeat existing files unless they require modification.`
 
                 <TabsContent value="code" className="flex-1 p-0 m-0 overflow-auto">
                   <div className="h-full overflow-auto">
-                    {/* Reemplazar el pre/code con Monaco Editor */}
                     <MonacoEditor
                       value={getFileContent()}
                       language={getFileExtension()}
@@ -530,7 +495,6 @@ Do not repeat existing files unless they require modification.`
         </div>
       )}
 
-      {/* Prompt input (solo visible cuando se muestra el explorador de archivos) */}
       {showFileExplorer && (
         <div className="border-t p-4">
           <div className="flex gap-2 items-end">
@@ -588,10 +552,8 @@ function FileTree({
   getFileIcon,
   getFileColor,
 }: FileTreeProps) {
-  // Create a tree structure from flat file list
   const fileTree: Record<string, any> = {}
 
-  // First pass: create folders
   files.forEach((file) => {
     const parts = file.path.split("/")
     let current = fileTree
@@ -601,7 +563,6 @@ function FileTree({
       const path = parts.slice(0, i + 1).join("/")
 
       if (i === parts.length - 1) {
-        // This is the file/folder itself
         current[part] = {
           path,
           type: file.type,
@@ -609,7 +570,6 @@ function FileTree({
           children: {},
         }
       } else {
-        // This is a parent folder
         if (!current[part]) {
           current[part] = {
             path,
@@ -623,7 +583,6 @@ function FileTree({
     }
   })
 
-  // Render tree recursively
   const renderTree = (node: Record<string, any>, level = 0) => {
     return Object.keys(node).map((key) => {
       const item = node[key]

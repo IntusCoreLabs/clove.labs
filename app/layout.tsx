@@ -21,7 +21,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "clove.labs",
-  description: "clove.labs is an agent for generating IntusCoreLabs projects",
+  description: "clove.labs | build proyects",
+  icons: {
+    icon: '/vlabs.png'
+  }
 }
 
 
