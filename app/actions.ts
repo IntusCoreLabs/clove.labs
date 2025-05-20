@@ -86,7 +86,8 @@ export async function generateCodeWithGemini(prompt: string): Promise<FileStruct
 
 
 
-    const isContinuation = "Continúa trabajando en el proyecto existente"
+
+    const isContinuation = "Continue working on the existing project"
 
 
     const fullPrompt = `

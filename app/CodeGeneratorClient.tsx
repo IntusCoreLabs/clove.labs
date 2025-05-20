@@ -100,7 +100,6 @@ const getFileIcon = (path: string) => {
   }
 }
 
-// Función para obtener el color adecuado según la extensión del archivo
 const getFileColor = (path: string, type: string) => {
   if (type === "folder") return fileColors.folder
 
@@ -171,16 +170,18 @@ export default function CodeGeneratorClient() {
       const existingFiles = files.map((file) => `${file.path} ${file.type === "folder" ? "(folder)" : ""}`).join("\n")
 
       fullPrompt = `Continue working on the existing project.
-These are the existing files:
-${existingFiles}
+      These are the existing files:
+      ${existingFiles}
 
-History of previous prompts:
-${projectHistory.join("\n- ")}
+      History of previous prompts:
+      ${projectHistory.join("\n- ")}
 
-New request: ${prompt}
 
- Please add or modify files as needed to implement this new functionality.
-Do not repeat existing files unless they require modification. `
+      New application: ${prompt}
+
+      Please add or modify files as needed to implement this new functionality.
+      Do not repeat existing files unless they require modification.`
+
     }
 
     toast({
